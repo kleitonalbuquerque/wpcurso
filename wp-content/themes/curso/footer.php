@@ -1,7 +1,10 @@
 <footer>
     <div class="container">
         <div class="row">
-            <nav class="menu col-md-12 text-right">
+            <div class="copyright col-sm-7 col-4">
+                <p>Copyright &#169;</p>
+            </div>
+            <nav class="footer-menu col-sm-5 col-8 text-right">
                 <?php
                 wp_nav_menu(
                     array(

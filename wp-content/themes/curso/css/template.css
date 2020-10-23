@@ -11,3 +11,7 @@
 .menu ul li {
     display: inline;
 }
+
+.main-menu ul li, footer-menu ul li {
+    display: inline;
+}

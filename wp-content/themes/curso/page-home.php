@@ -25,17 +25,7 @@
                             while( have_posts() ): the_post();
                         ?>
 
-                        <article>
-                            <h2><?php the_title(); ?></h2>
-                            <p>Published in by 
-                                <?php echo get_the_date(); ?>
-                                <br> Author:     <?php the_author_posts_link() ?>
-                            </p>
-                            <p>Categories: <?php the_category( ' ' ); ?></p>
-                            <p><?php the_tags( 'Tags: ', ', ' ); ?></p>
-                            <?php the_content(); ?>
-                            <hr>
-                        </article>
+                        <p>Conteúdo vindo do arquivo home.php</p>
 
                         <?php 
                             endwhile;

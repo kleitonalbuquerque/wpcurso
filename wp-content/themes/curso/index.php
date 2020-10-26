@@ -1,4 +1,10 @@
 <?php get_header(); ?>
+<img class="img-fluid"
+    src="<?php header_image(); ?>" 
+    alt="header" 
+    height="<?php echo get_custom_header()->height; ?>"
+    width="<?php echo get_custom_header()->width; ?>"
+>
 
 <div class="content-area">
     <main>

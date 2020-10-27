@@ -1,3 +1,4 @@
+<!-- Blog Area -->
 <?php get_header(); ?>
 <img class="img-fluid"
     src="<?php header_image(); ?>" 
@@ -8,22 +9,9 @@
 
 <div class="content-area">
     <main>
-        <section class="slide">
-            <div class="container">
-                <div class="row">Slide</div>
-            </div>
-        </section>
-
-        <section class="services">
-            <div class="container">
-                <div class="row">Serviços</div>
-            </div>
-        </section>
-
         <section class="middle-area">
             <div class="container">
-                <div class="row">
-                    <aside class="sidebar col-md-4">Barra Lateral</aside>
+                <div class="row">                    
                     <div class="news col-md-8">
                         <!-- News -->
                         <?php 
@@ -40,14 +28,7 @@
                         <p>There is nothing yet to be displayed...</p>
                         <?php endif; ?>
                     </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="map">
-            <div class="container">
-                <div class="row">
-                    Mapa
+                    <?php get_sidebar('blog'); ?>
                 </div>
             </div>
         </section>

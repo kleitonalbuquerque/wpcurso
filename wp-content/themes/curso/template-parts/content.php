@@ -1,6 +1,6 @@
 <article <?php post_class(); ?>>
-    <h2><?php the_title(); ?></h2>
-    <?php the_post_thumbnail(array(275, 275)); ?>
+    <h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+    <a href="<?php the_permalink(); ?>"><?php the_post_thumbnail(array(275, 275)); ?></a>
     <div class="meta-info">
         <//?php the_post_thumbnail('thumbnail'); ?>
         <p>Published in by

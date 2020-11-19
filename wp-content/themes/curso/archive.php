@@ -12,14 +12,20 @@
         <section class="middle-area">
             <div class="container">
                 <div class="row">                    
-                    <div class="news col-md-8">
+                    <div class="archive col-md-8">
                         <!-- News -->
                         <?php 
+
+                        the_archive_title('<h1 class="archive-title">', '</h1>');
+                        the_archive_description();
+
+                        // Se houver algum post
                         if( have_posts() ):
+                            // Enquanto houver posts, mostre-os
                             while( have_posts() ): the_post();
                         ?>
 
-                        <?php get_template_part('template-parts/content', get_post_format()); ?>
+                        <?php get_template_part('template-parts/content', 'archive'); ?>
 
                         <?php 
                             endwhile;

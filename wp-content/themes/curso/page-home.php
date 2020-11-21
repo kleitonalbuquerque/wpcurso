@@ -2,9 +2,8 @@
 	<div class="content-area">
 		<main>
 			<section class="slide">
-				<div class="container">
-					<div class="row">Slide</div>
-				</div>
+			<!-- Slider News -->
+				<?php echo do_shortcode('[recent_post_slider design="design-2" limit="5"]'); ?>
 			</section>
 			<section class="services">
 				<div class="container">

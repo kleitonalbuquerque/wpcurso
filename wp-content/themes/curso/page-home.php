@@ -3,7 +3,12 @@
 		<main>
 			<section class="slide">
 			<!-- Slider News -->
-				<?php echo do_shortcode('[recent_post_slider design="design-2" limit="5"]'); ?>
+				<?php 
+				$design = get_theme_mod('set_slider_option');
+				$limit = get_theme_mod('set_slider_limit');
+
+				echo do_shortcode('[recent_post_slider design="design-' . $design . '" limit=" '. $limit .' "]'); 
+				?>
 			</section>
 			<section class="services">
 				<div class="container">

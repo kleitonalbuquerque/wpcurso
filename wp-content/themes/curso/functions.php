@@ -23,6 +23,7 @@ function wpcurso_config()
         )
     );
 
+    // Adicionando suporte ao tema
     $args = array(
         'height' => 225,
         'width'  => 1920
@@ -32,10 +33,16 @@ function wpcurso_config()
     add_theme_support('post-formats', array('video', 'image'));
     add_theme_support('title-tag');
     add_theme_support('custom-logo', array('height' => 110, 'width' => 200));
+
+    // Habilitando suporte à tradução
+    $textdomain = 'wpcurso';
+    
+    load_theme_textdomanin($textdomain, get_template_directory() . '/languages/');
 }
 
 add_action('after_setup_theme', 'wpcurso_config', 0);
 
+// Registrando Sidebars
 add_action('widgets_init', 'wpcurso_sidebars');
 function wpcurso_sidebars()
 {

@@ -111,7 +111,6 @@ function wpcurso_customizer( $wp_customize ){
 		)
 	);
 
-	// Design
 	$wp_customize->add_control(
 		'set_slider_limit', array(
 			'label' => 'Number of posts to display',
@@ -120,6 +119,86 @@ function wpcurso_customizer( $wp_customize ){
 			'type' => 'number'
 		)
 	);
+
+	// Front Page Loops
+
+	$wp_customize->add_section( 
+		'sec_loops', array(
+			'title' => 'Front Page Loops',
+			'description' => 'Controls the loops in front page'
+		)
+	);
+
+	$wp_customize->add_setting(
+		'set_loop1_categories', array(
+			'type' => 'theme_mod',
+			'default' => '',
+			'sanitize_callback' => 'wp_filter_nohtml_kses'
+		)
+	);
+
+	$wp_customize->add_control(
+		'set_loop1_categories', array(
+			'label' => 'Categories to include in first loop',
+			'description' => 'Choose the categories to include in the first loop. Use commas to separate the categories. For example 4,5,8,20',
+			'section' => 'sec_loops',
+			'type' => 'text'
+		)
+	);
+
+	$wp_customize->add_setting(
+		'set_loop2_posts_per_page', array(
+			'type' => 'theme_mod',
+			'default' => '2',
+			'sanitize_callback' => 'absint'
+		)
+	);
+
+	$wp_customize->add_control(
+		'set_loop2_posts_per_page', array(
+			'label' => 'Number of posts to display in second loop',
+			'description' => 'Choose the number of posts to display in second loop',
+			'section' => 'sec_loops',
+			'type' => 'number'
+		)
+	);
+
+
+	$wp_customize->add_setting(
+		'set_loop2_categories_to_exclude', array(
+			'type' => 'theme_mod',
+			'default' => '',
+			'sanitize_callback' => 'wp_filter_nohtml_kses'
+		)
+	);
+
+	$wp_customize->add_control(
+		'set_loop2_categories_to_exclude', array(
+			'label' => 'Categories to exclude in second loop',
+			'description' => 'Choose the categories to exclude in the second loop. Use commas to separate the categories. For example 4,5,8,20',
+			'section' => 'sec_loops',
+			'type' => 'text'
+		)
+	);
+
+
+	$wp_customize->add_setting(
+		'set_loop2_categories_to_include', array(
+			'type' => 'theme_mod',
+			'default' => '',
+			'sanitize_callback' => 'wp_filter_nohtml_kses'
+		)
+	);
+
+	$wp_customize->add_control(
+		'set_loop2_categories_to_include', array(
+			'label' => 'Categories to include in second loop',
+			'description' => 'Choose the categories to include in the second loop. Use commas to separate the categories. For example 4,5,8,20',
+			'section' => 'sec_loops',
+			'type' => 'text'
+		)
+	);
+
 }
 add_action( 'customize_register', 'wpcurso_customizer' );
 
@@ -132,5 +211,6 @@ function wpcurso_sanitize_select($input, $setting){
     $choices = $setting->manager->get_control($setting->id)->choices;
                      
     //return input if valid or return default option
-    return ( array_key_exists($input, $choices) ? $input : $setting->default);                    
+    return ( array_key_exists($input, $choices) ? $input : $setting->default);                
+     
 }

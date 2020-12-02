@@ -37,7 +37,7 @@ Template Name: General Template
                         endwhile;
                     else :
                         ?>
-                        <p>There is nothing yet to be displayed...</p>
+                        <p><?php _e( 'There&rsquo;s nothing yet to be displayed...', 'wpcurso' ); ?></p>
                     <?php endif; ?>
                 </div>
             </div>

@@ -82,9 +82,16 @@
 
 									// Segundo Loop
 									$args = array(
-										'post_type' =>
-									'post', 'posts_per_page' => $per_page, 'category__not_in' => $loop2_cat_exclude, 'category__in' => $loop2_cat_include, 'offset' => 1 ); $secondary = new WP_Query( $args ); if( $secondary->have_posts() ): while(
-									$secondary->have_posts() ): $secondary->the_post(); ?>
+									'post_type' =>
+									'post', 'posts_per_page' => $per_page, 
+									'category__not_in' => $loop2_cat_exclude, 
+									'category__in' => $loop2_cat_include, 
+									'offset' => 1 
+									); 
+									$secondary = new WP_Query( $args ); 
+									if( $secondary->have_posts() ):
+										 while(
+											$secondary->have_posts() ): $secondary->the_post(); ?>
 
 									<div class="col-sm-6">
 										<?php get_template_part( 'template-parts/content', 'secondary' ); ?>

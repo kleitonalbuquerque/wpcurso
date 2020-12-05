@@ -5,7 +5,7 @@
 
 /* form_tag handler */
 
-add_action( 'wpcf7_init', 'wpcf7_add_form_tag_acceptance', 10, 0 );
+add_action( 'wpcf7_init', 'wpcf7_add_form_tag_acceptance' );
 
 function wpcf7_add_form_tag_acceptance() {
 	wpcf7_add_form_tag( 'acceptance',
@@ -47,15 +47,7 @@ function wpcf7_acceptance_form_tag_handler( $tag ) {
 	$item_atts['name'] = $tag->name;
 	$item_atts['value'] = '1';
 	$item_atts['tabindex'] = $tag->get_option( 'tabindex', 'signed_int', true );
-
-	if ( $validation_error ) {
-		$item_atts['aria-invalid'] = 'true';
-		$item_atts['aria-describedby'] = wpcf7_get_validation_error_reference(
-			$tag->name
-		);
-	} else {
-		$item_atts['aria-invalid'] = 'false';
-	}
+	$item_atts['aria-invalid'] = $validation_error ? 'true' : 'false';
 
 	if ( $tag->has_option( 'default:on' ) ) {
 		$item_atts['checked'] = 'checked';
@@ -73,21 +65,9 @@ function wpcf7_acceptance_form_tag_handler( $tag ) {
 	$content = trim( $content );
 
 	if ( $content ) {
-		if ( $tag->has_option( 'label_first' ) ) {
-			$html = sprintf(
-				'<span class="wpcf7-list-item-label">%2$s</span><input %1$s />',
-				$item_atts, $content );
-		} else {
-			$html = sprintf(
-				'<input %1$s /><span class="wpcf7-list-item-label">%2$s</span>',
-				$item_atts, $content );
-		}
-
 		$html = sprintf(
-			'<span class="wpcf7-list-item"><label>%s</label></span>',
-			$html
-		);
-
+			'<span class="wpcf7-list-item"><label><input %1$s /><span class="wpcf7-list-item-label">%2$s</span></label></span>',
+			$item_atts, $content );
 	} else {
 		$html = sprintf(
 			'<span class="wpcf7-list-item"><input %1$s /></span>',
@@ -123,8 +103,7 @@ function wpcf7_acceptance_validation_filter( $result, $tag ) {
 
 	$invert = $tag->has_option( 'invert' );
 
-	if ( $invert and $value
-	or ! $invert and ! $value ) {
+	if ( $invert && $value || ! $invert && ! $value ) {
 		$result->invalidate( $tag, wpcf7_get_message( 'accept_terms' ) );
 	}
 
@@ -154,7 +133,7 @@ function wpcf7_acceptance_filter( $accepted, $submission ) {
 
 		$content = trim( $content );
 
-		if ( $value and $content ) {
+		if ( $value && $content ) {
 			$submission->add_consent( $name, $content );
 		}
 
@@ -164,8 +143,7 @@ function wpcf7_acceptance_filter( $accepted, $submission ) {
 
 		$invert = $tag->has_option( 'invert' );
 
-		if ( $invert and $value
-		or ! $invert and ! $value ) {
+		if ( $invert && $value || ! $invert && ! $value ) {
 			$accepted = false;
 		}
 	}
@@ -173,8 +151,7 @@ function wpcf7_acceptance_filter( $accepted, $submission ) {
 	return $accepted;
 }
 
-add_filter( 'wpcf7_form_class_attr',
-	'wpcf7_acceptance_form_class_attr', 10, 1 );
+add_filter( 'wpcf7_form_class_attr', 'wpcf7_acceptance_form_class_attr' );
 
 function wpcf7_acceptance_form_class_attr( $class ) {
 	if ( wpcf7_acceptance_as_validation() ) {
@@ -219,13 +196,12 @@ function wpcf7_acceptance_mail_tag( $replaced, $submitted, $html, $mail_tag ) {
 	$content = trim( $content );
 
 	if ( $content ) {
+		/* translators: 1: 'Consented' or 'Not consented', 2: conditions */
 		$replaced = sprintf(
-			/* translators: 1: 'Consented' or 'Not consented', 2: conditions */
 			_x( '%1$s: %2$s', 'mail output for acceptance checkboxes',
 				'contact-form-7' ),
 			$replaced,
-			$content
-		);
+			$content );
 	}
 
 	return $replaced;
@@ -234,7 +210,7 @@ function wpcf7_acceptance_mail_tag( $replaced, $submitted, $html, $mail_tag ) {
 
 /* Tag generator */
 
-add_action( 'wpcf7_admin_init', 'wpcf7_add_tag_generator_acceptance', 35, 0 );
+add_action( 'wpcf7_admin_init', 'wpcf7_add_tag_generator_acceptance', 35 );
 
 function wpcf7_add_tag_generator_acceptance() {
 	$tag_generator = WPCF7_TagGenerator::get_instance();
@@ -248,7 +224,7 @@ function wpcf7_tag_generator_acceptance( $contact_form, $args = '' ) {
 
 	$description = __( "Generate a form-tag for an acceptance checkbox. For more details, see %s.", 'contact-form-7' );
 
-	$desc_link = wpcf7_link( __( 'https://contactform7.com/acceptance-checkbox/', 'contact-form-7' ), __( 'Acceptance checkbox', 'contact-form-7' ) );
+	$desc_link = wpcf7_link( __( 'https://contactform7.com/acceptance-checkbox/', 'contact-form-7' ), __( 'Acceptance Checkbox', 'contact-form-7' ) );
 
 ?>
 <div class="control-box">

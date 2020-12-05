@@ -1,6 +1,9 @@
-/* Google Fonts */
+/************** FONTS *****************/
+
 @import url('https://fonts.googleapis.com/css?family=Oswald:400,900');
 @import url('https://fonts.googleapis.com/css?family=Lato:400,900');
+
+/************** GENERAL *****************/
 
 body{ font: 16px/1.6 'Oswald', sans-serif;  }
 body p{ font: 16px/1.6 'Lato', sans-serif; }
@@ -8,6 +11,8 @@ h1{ font-size: 28px; margin: 15px 0 15px; }
 h2{ font-size: 24px; margin-top: 0; }
 h3{ font-size: 20px; margin-top: 0; }
 h4{ font-size: 18px; margin-top: 0; }
+
+/************** HOME PAGE *****************/
 
 /* Top Bar Section */
 .top-bar{ background: #b9121b; color: #fff; padding: 15px 0; }
@@ -18,32 +23,25 @@ h4{ font-size: 18px; margin-top: 0; }
 
 /* Top Bar - Search */
 .search input[type="search"]{ color: #989898; background: #ededed; border: 0; padding: 3px 10px;}
-.search button{ display: none; background: #000; border: 0; color: #fff; padding: 22px 16px 9px; margin-left: -4px; }
+.search button{  background: #000; border: 0; color: #fff; padding: 3px 10px 4px; margin-left: -4px; }
 .search label{ margin: 0; }
+
+/* Align */
+.align{ display: flex; align-items: center; width: 100%; }
 
 /* Header - Main Menu */
 .menu-area{ background: #f3f3f3; padding: 15px 0; }
 .main-menu ul{ list-style: none; padding: 0; margin: 0; font-size: 28px; }
-.main-menu ul li{ display: inline;  margin: 0 30px 0 0;}
+.main-menu ul li{ display: inline;  margin: 0 50px 0 0;}
 .main-menu ul li:last-child{ margin: 0; }
 .main-menu ul li a{ text-transform: uppercase; color: #4c1b1b; text-decoration: none;}
 .main-menu ul  li.current-menu-item a{ color:#e58888; }
 
 /* Slider */
-.slide{ padding: 0; }
-.wppsac-post-slider .wppsac-post-image-bg{ min-height: 460px; }
-.wppsac-post-content-left{ display: flex; align-items: center; }
-.wppsac-post-slider .slick-dots li.slick-active button { background: #b9121b !important; }
-.wppsac-post-slider .slick-dots li button {
-    background: #fff !important;
-    margin: 0px !important;
-    padding: 0px !important;
-    border: 0;
-    border-radius: 0 !important;
-    width: 29px !important;
-    height: 8px !important;
-}
-
+.recent-post-slider.design-2 .post-image-bg{ min-height: 700px; }
+.recent-post-slider.design-2 .post-content-left{ display: flex; align-items: center; }
+.recent-post-slider .slick-dots li button { border: 0 !important; border-radius: 0 !important; width: 29px !important; height: 8px !important;
+}.recent-post-slider .slick-dots li.slick-active button { background: #b9121b !important;}
 
 /* Services */
 .services{ background: #4c1b1b; padding: 25px 0; color: #fefefe; }
@@ -62,6 +60,11 @@ h4{ font-size: 18px; margin-top: 0; }
 .home .sidebar{ background: #201c0c; }
 .home .sidebar h2{ color: #ffffff; text-transform: uppercase; font-size: 38px; margin: 0 0 25px; }
 .home .sidebar p{ color: #c9c9c9; }
+
+/* Middle Area - Sidebar - Contact Form 7 */
+.home .wpcf7 input[type="text"], .home .wpcf7 input[type="email"], .home .wpcf7 textarea{ width: 100%; background: #fcfae1; border: 0; padding: 10px; color: #989898; }
+.home .wpcf7 input[type="submit"]{ background: #b9121b; border: 0; color: #ffffff; text-transform: uppercase; width: 100%; padding: 15px; }
+.home .wpcf7-validation-errors{ color: #ffffff; }
 
 /* Middle Area - Featured News */
 .home .news h1{ color: #4c1b1b; text-transform: uppercase; font-size: 38px; font-weight: bold; }
@@ -120,3 +123,43 @@ footer{ background: #000; padding: 15px 0; color: #fcfae1; }
 /* Pagination */
 .blog .pages, .archive .pages, .single .pages{ margin-bottom: 40px; }
 .pagination{ display: block; }
+
+/* Gutenberg */
+@media only screen and (min-width: 1140px) {
+
+    .alignfull, .alignwide {
+        margin-bottom: 2em;
+    }
+    .alignwide {
+        width: 75vw;
+        margin-left: 50%; 
+        transform: translateX(-50%);
+    }
+    .alignfull {
+        width: 100vw;
+        margin-left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
+.has-blood-red-background-color{
+	background-color: #b9121b;
+}
+.has-blood-red-color{
+	color: #b9121b;
+}
+.has-white-background-color{
+	background-color: #ffffff;
+}
+.has-white-color{
+	color: #ffffff;
+}
+
+
+
+
+
+
+
+
+

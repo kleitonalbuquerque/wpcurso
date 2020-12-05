@@ -6,6 +6,5 @@
 		<p><?php _e( 'Categories:', 'wpcurso' ); ?> <?php the_category( ' ' ); ?></p>
 		<p><?php the_tags( __( 'Tags: ', 'wpcurso' ), ', ' ); ?></p>
 	</div>
-	<?php the_excerpt(); ?>
-	<//?php the_content(); ?>
+	<?php the_content(); ?>
 </article>

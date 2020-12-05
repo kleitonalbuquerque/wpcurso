@@ -16,25 +16,14 @@ span.shortcode.old {
 	color: #fff;
 }
 
-span.shortcode input {
+span.shortcode > input {
+	background: inherit;
+	color: inherit;
 	font-size: 12px;
 	border: none;
 	box-shadow: none;
 	padding: 4px 8px;
 	margin: 0;
-}
-
-#wpcf7-contact-form-list-table span.shortcode input,
-#wpcf7-contact-form-editor span.shortcode input {
-	background: transparent;
-}
-
-#wpcf7-contact-form-list-table span.shortcode input {
-	color: #444;
-}
-
-#wpcf7-contact-form-editor span.shortcode input {
-	color: #fff;
 }
 
 #submitpost input.copy {
@@ -51,7 +40,7 @@ span.shortcode input {
 }
 
 #submitpost input.delete:hover {
-	color: #dc3232;
+	color: #f00;
 }
 
 #submitpost input.delete:focus {
@@ -83,28 +72,13 @@ ul.config-error li {
 	margin: 0;
 }
 
-[data-config-field][aria-invalid="true"] {
-	border-color: #dc3232;
+div.config-error span.dashicons,
+ul.config-error li span.dashicons {
+	color: #82878c;
 }
 
-#contact-form-editor-tabs li a .icon-in-circle,
-#contact-form-editor .config-error .icon-in-circle,
-.wp-list-table .config-error .icon-in-circle,
-.icon-in-circle {
-	display: inline-block;
-	vertical-align: text-top;
-	margin: 1px 6px 0;
-	padding: 0 5px;
-	min-width: 7px;
-	height: 17px;
-	border-radius: 11px;
-	background-color: #ca4a1f;
-	color: #fff;
-	font-size: 12px;
-	font-weight: bold;
-	line-height: 17px;
-	text-align: center;
-	z-index: 26;
+[data-config-field][aria-invalid="true"] {
+	border-color: #d00;
 }
 
 /*
@@ -158,11 +132,22 @@ ul.config-error li {
 	color: #000;
 }
 
+#contact-form-editor-tabs li a span.dashicons {
+	font-style: normal;
+	padding: 6px 0 4px 4px;
+	color: #82878c;
+}
+
+#contact-form-editor-tabs li a span.dashicons-warning,
+#contact-form-editor .contact-form-editor-panel > div.config-error span.dashicons-warning {
+	color: #ca4a1f;
+}
+
 #contact-form-editor .contact-form-editor-panel > div.config-error {
 	margin-bottom: 1.4em;
 }
 
-#contact-form-editor-tabs li.ui-tabs-active a .icon-in-circle {
+#contact-form-editor-tabs li.ui-tabs-active a span.dashicons {
 	display: none;
 }
 
@@ -202,27 +187,25 @@ ul.config-error li {
 }
 
 .tag-generator-panel {
+	position: relative;
 	height: 495px;
-	display: flex;
-	flex-direction: column;
 }
 
 .tag-generator-panel .control-box {
 	padding: 0;
 	margin: 0;
+	height: 380px;
 	overflow: auto;
-	flex-grow: 1;
 }
 
-.tag-generator-panel .control-box > fieldset > legend {
+.tag-generator-panel .control-box > fieldset legend {
 	border: 1px solid #dfdfdf;
 	border-left: 4px solid #00a0d2;
 	background: #f7fcfe;
 	padding: 4px 12px;
 	margin: 4px 0;
 	line-height: 1.4em;
-	width: 100%;
-	box-sizing: border-box;
+	width: 95%;
 }
 
 .tag-generator-panel table {
@@ -275,7 +258,13 @@ ul.config-error li {
 }
 
 .tag-generator-panel .insert-box {
-	margin: 0 -15px -15px;
+	position: absolute;
+	left: -15px;
+	right: -15px;
+	bottom: -15px;
+	width: 100%;
+	height: 84px;
+	margin: 0;
 	padding: 8px 16px;
 	background-color: #fcfcfc;
 	border-top: 1px solid #dfdfdf;
@@ -283,14 +272,14 @@ ul.config-error li {
 }
 
 .tag-generator-panel .insert-box input.tag {
-	width: 510px;
+	width: 480px;
 	float: left;
 	background-color: transparent;
 	box-shadow: none;
 }
 
 .tag-generator-panel .insert-box .submitbox {
-	padding: 0;
+	padding: 2px 4px;
 }
 
 .tag-generator-panel .insert-box .submitbox input[type="button"] {
@@ -336,6 +325,10 @@ ul.config-error li {
 
 .fixed .column-shortcode {
 	width: 38%;
+}
+
+.wp-list-table .config-error span.dashicons-warning {
+	color: #ca4a1f;
 }
 
 /*
@@ -428,8 +421,4 @@ ul.config-error li {
 
 .card .inside .form-table td {
 	padding: 10px 10px;
-}
-
-.card .checkboxes li {
-	margin: 0;
 }

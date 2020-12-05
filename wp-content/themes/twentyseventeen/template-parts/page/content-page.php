@@ -2,11 +2,11 @@
 /**
  * Template part for displaying page content in page.php
  *
- * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
+ * @link https://codex.wordpress.org/Template_Hierarchy
  *
  * @package WordPress
  * @subpackage Twenty_Seventeen
- * @since Twenty Seventeen 1.0
+ * @since 1.0
  * @version 1.0
  */
 
@@ -27,6 +27,6 @@
 					'after'  => '</div>',
 				)
 			);
-			?>
+		?>
 	</div><!-- .entry-content -->
-</article><!-- #post-<?php the_ID(); ?> -->
+</article><!-- #post-## -->

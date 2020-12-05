@@ -1,19 +1,27 @@
-<?php
+<?php 
+
 // Incluindo os arquivos da TGM
 require_once get_template_directory() . '/inc/class-tgm-plugin-activation.php';
 require_once get_template_directory() . '/inc/required-plugins.php';
 
-// Requerendo arquivo Customizer
+// Requerendo o arquivo do Customizer
 require get_template_directory() . '/inc/customizer.php';
 
-// Carregando scripts e folhas de estilo
-function load_scripts()
-{
-    wp_enqueue_script('bootstrap-js', '/dist/js/bootstrap.min.js', array('jquery'), '4.5.3', true);
-    wp_enqueue_style('bootstrap-css', get_template_directory_uri() . '/dist/css/bootstrap.min.css', array(), '4.5.3', 'all');
-    wp_enqueue_style('template', get_template_directory_uri() . '/css/template.css', array(), '1.0', 'all');
+// Carregando nossos scripts e folhas de estilos
+function load_scripts(){
+	wp_enqueue_script( 'bootstrap-js', 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js', array( 'jquery' ), '4.0.0', true );
+	wp_enqueue_style( 'bootstrap-css', 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css', array(), '4.0.0', 'all' );
+	wp_enqueue_style( 'template', get_template_directory_uri() . '/css/template.css', array(), '1.0', 'all' );
+	wp_enqueue_script( 'fitvids', get_template_directory_uri() . '/js/fitvids.js', array( 'jquery' ), null, true );
 }
-add_action('wp_enqueue_scripts', 'load_scripts');
+add_action( 'wp_enqueue_scripts', 'load_scripts' );
+
+function wpcurso_editor_styles(){
+	wp_enqueue_style( 'editor-styles', get_template_directory_uri() . '/css/style-editor.css' );
+	wp_enqueue_style( 'lato', 'https://fonts.googleapis.com/css?family=Lato:400,900' );
+	wp_enqueue_style( 'oswald', 'https://fonts.googleapis.com/css?family=Oswald:400,900' );
+}
+add_action( 'enqueue_block_editor_assets', 'wpcurso_editor_styles' );
 
 // Função de Configuração do Tema
 function wpcurso_config(){
@@ -40,6 +48,22 @@ function wpcurso_config(){
 	$textdomain = 'wpcurso';
 	load_theme_textdomain( $textdomain, get_stylesheet_directory() . '/languages/' );
 	load_theme_textdomain( $textdomain, get_template_directory() . '/languages/' );
+
+	// Suporte ao Gutenberg
+	add_theme_support( 'align-wide' );
+	add_theme_support( 'editor-color-palette', array(
+		array(
+			'name' => __( 'Blood Red' , 'wpcurso' ),
+			'slug' => 'blood-red',
+			'color' => '#b9121b'
+		),
+		array(
+			'name' => __( 'White' , 'wpcurso' ),
+			'slug' => 'white',
+			'color' => '#ffffff'
+		)		
+	) );
+	add_theme_support( 'disable-custom-colors' );
 
 }
 add_action( 'after_setup_theme', 'wpcurso_config', 0 );
@@ -114,3 +138,5 @@ function wpcurso_sidebars(){
 		)
 	);					
 }
+
+

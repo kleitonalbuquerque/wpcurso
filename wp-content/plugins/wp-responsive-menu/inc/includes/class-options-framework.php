@@ -36,8 +36,6 @@ class Wpr_Options_Framework {
 	 */
 	function set_theme_option() {
 
-		
-
 		// Load settings
         $wpr_optionsframework_settings = get_option( 'wpr_optionsframework' );
 
@@ -50,7 +48,6 @@ class Wpr_Options_Framework {
         }
         // If the developer hasn't explicitly set an option id, we'll use a default
         else {
-
             $default_themename = get_option( 'stylesheet' );
             $default_themename = preg_replace( "/\W/", "_", strtolower($default_themename ) );
             $default_themename = 'wpr_optionsframework_' . $default_themename;
@@ -63,10 +60,8 @@ class Wpr_Options_Framework {
 				}
             }
             else {
-            	
 				$wpr_optionsframework_settings['id'] = $default_themename;
 				update_option( 'wpr_optionsframework', $wpr_optionsframework_settings );
-
             }
         }
 

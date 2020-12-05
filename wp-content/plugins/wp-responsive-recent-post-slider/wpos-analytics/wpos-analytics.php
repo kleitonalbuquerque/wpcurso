@@ -102,7 +102,7 @@ final class WPOS_Analytics {
 	 */
 	private function setup_constants() {
 
-		$this->define( 'WPOS_ANYLC_VERSION', '1.1' );
+		$this->define( 'WPOS_ANYLC_VERSION', '1.0' );
 		$this->define( 'WPOS_ANYLC_DIR', plugin_dir_path( __FILE__ ) );
 		$this->define( 'WPOS_ANYLC_URL', plugin_dir_url( __FILE__ ) );
 	}
@@ -224,9 +224,9 @@ function wpos_anylc_plugin_activation( $plugin, $network_activation ) {
 	if( isset( $wpos_analytics_module[ $plugin ] ) ) {
 
 		$opt_in_data 	= get_option( $wpos_analytics_module[ $plugin ]['anylc_optin'] );
-		$optin_status 	= isset( $opt_in_data['status'] ) ? $opt_in_data['status'] : -1;
+		$optin_status 	= isset( $opt_in_data['status'] ) ? $opt_in_data['status'] : null;
 
-		if( $optin_status == -1 ) {
+		if( $optin_status == '' ) {
 			$redirect_link = add_query_arg( array('page' => $wpos_analytics_module[ $plugin ]['slug']), admin_url('admin.php') );
 			update_option( 'wpos_anylc_redirect', $redirect_link );
 		}

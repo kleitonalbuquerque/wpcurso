@@ -17,23 +17,22 @@
  * @link       https://github.com/TGMPA/TGM-Plugin-Activation
  */
 
+
 add_action( 'tgmpa_register', 'wpcurso_register_required_plugins' );
 
+
 function wpcurso_register_required_plugins() {
-	/*
-	 * Array of plugin arrays. Required keys are name and slug.
-	 * If the source is NOT from the .org repo, then source is also required.
-	 */
+
 	$plugins = array(
-		// This is an example of how to include a plugin from the WordPress Plugin Repository.
+
 		array(
-			'name'      => 'Social Icons Widget & Block by WPZOOM',
-			'slug'      => 'social-icons-widget-by-wpzoom',
+			'name'      => 'Social Icons Widget',
+			'slug'      => 'social-media-icons-widget',
 			'required'  => true,
 		),
 
 		array(
-			'name'      => 'WP Responsive Recent Post Slider/Carousel',
+			'name'      => 'Recent Post Slider',
 			'slug'      => 'wp-responsive-recent-post-slider',
 			'required'  => true,
 		),
@@ -49,7 +48,9 @@ function wpcurso_register_required_plugins() {
 			'slug'      => 'wp-responsive-menu',
 			'required'  => true,
 		),
+
 	);
+
 
 	$config = array(
 		'id'           => 'wpcurso',                 // Unique ID for hashing notices for multiple instances of TGMPA.
@@ -60,6 +61,8 @@ function wpcurso_register_required_plugins() {
 		'dismiss_msg'  => '',                      // If 'dismissable' is false, this message will be output at top of nag.
 		'is_automatic' => false,                   // Automatically activate plugins after installation or not.
 		'message'      => '',                      // Message to output right before the plugins table.
+
+
 	);
 
 	tgmpa( $plugins, $config );

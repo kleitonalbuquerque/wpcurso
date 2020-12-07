@@ -64,7 +64,9 @@ function wpcurso_config(){
 		)		
 	) );
 	add_theme_support( 'disable-custom-colors' );
-
+	add_theme_support( 'editor-styles' );
+	add_editor_style( 'css/style-editor.css' );
+	add_theme_support( 'wp-block-styles' );
 }
 add_action( 'after_setup_theme', 'wpcurso_config', 0 );
 

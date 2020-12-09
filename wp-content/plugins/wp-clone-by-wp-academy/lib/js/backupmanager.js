@@ -278,5 +278,77 @@ jQuery(function($) {
 
     }
 
+    $("#banner-2-restore-close-icon").on("click", function (e) {
+        $(".plugin-large-notice-restore-success").hide();
+    })
 
+    //Banner notice
+    $(".banner-1 .close-icon").on("click", function (e) {
+        $(".banner-1-collapsed").show(100);
+        $(".banner-1").hide(100);
+
+        $.ajax({
+            url: ajaxurl,
+            type: 'get',
+            data: {
+                'action': 'wpclone-ajax-banner1-close'
+            },
+            success: function(data){
+                console.log(data);
+            },
+            error: function(e){
+            }
+        });
+    })
+
+    $(".banner-1-collapsed .remove-for-good").on("click", function (e) {
+        $(".banner-1-collapsed").hide();
+
+        $.ajax({
+            url: ajaxurl,
+            type: 'get',
+            data: {
+                'action': 'wpclone-ajax-banner1-removed'
+            },
+            success: function(data){
+                console.log(data);
+            },
+            error: function(e){
+            }
+        });
+    })
+    $(".banner-1 .close-icon").on("click", function (e) {
+        $(".banner-1-collapsed").show(100);
+        $(".banner-1").hide(100);
+
+        $.ajax({
+            url: ajaxurl,
+            type: 'get',
+            data: {
+                'action': 'wpclone-ajax-banner1-close'
+            },
+            success: function(data){
+                console.log(data);
+            },
+            error: function(e){
+            }
+        });
+    })
+
+    $(".banner-1-collapsed .remove-for-good").on("click", function (e) {
+        $(".banner-1-collapsed").hide();
+
+        $.ajax({
+            url: ajaxurl,
+            type: 'get',
+            data: {
+                'action': 'wpclone-ajax-banner1-removed'
+            },
+            success: function(data){
+                console.log(data);
+            },
+            error: function(e){
+            }
+        });
+    })
 });

@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * wp-clone-by-wp-academy Wordpress plugin to backup and migrate Wordpress website.
+ *
+ * @URI https://wordpress.org/plugins/wp-clone-by-wp-academy
+ *
+ * @developed by Shaharia Azam <mail@shaharia.com>
+ */
 function wpCloneSafePathMode($path) {
     return str_replace("\\", "/", $path);
 }
@@ -141,7 +147,7 @@ function wpa_db_backup_direct($destination)
                 $return.= 'INSERT INTO '.$table.' VALUES(';
                 for($j=0; $j<$num_fields; $j++)
                 {
-                        $row[$j] = $wpcdb->real_escape_string( $row[$j] );
+                        $row[$j] = $wpdb->escape( $row[$j] );
                         if (isset($row[$j])) { $return.= '"'.$row[$j].'"' ; } else { $return.= '""'; }
                         if ($j<($num_fields-1)) { $return.= ', '; } // Add extra space to match wpdb backup method
                 }
@@ -431,14 +437,59 @@ function processRestoringBackup($url, $zipmode) {
 
     wpa_wpc_log( 'restore finished' );
 
-    echo '<div class="width-60"><h1>Restore Successful!</h1>';
+    echo '<div class=""><h1>Restore Successful!</h1>';
     printf( 'Visit your restored site [ <a href="%s" target=blank>here</a> ]<br><br>', $site_url );
     printf( '<strong>You may need to re-save your permalink structure <a href="%s" target=blank>Here</a></strong>', $permalink_url );
     printf( '</br><a href="%s">log</a>',  convertPathIntoUrl( WPCLONE_DIR_BACKUP . $GLOBALS['wpclone']['logfile'] ) );
+    ?>
+    <?php
     unset( $GLOBALS['wpclone'] );
     echo wpa_wpc_search_n_replace_report( $report );
 
+    ?>
 
+    <style rel="stylesheet">
+        .banner-2-after-restore {
+            min-height: 280px;
+            width: auto;
+            background-size: cover;
+            padding-top: 24px;
+            padding-left: 25px;
+            padding-right: 25px;
+            font-family: 'Montserrat', sans-serif;
+            margin-right: 30px;
+            margin-top: 20px;
+            padding-bottom: 20px;
+        }
+        .banner-2-after-restore p{
+            font-size: 18px;
+        }
+
+        .banner-2-after-restore p a{
+            color: #3eb9b4;
+            text-decoration: none;
+        }
+    </style>
+    <div class="plugin-large-notice-restore-success">
+        <div class="banner-2-after-restore" style="background-image: url('<?php echo plugins_url( 'lib/img/banner_success_rating_bg.jpg', WPCLONE_ROOT_FILE_PATH )?>')">
+            <div style="float: right;" id="banner-2-restore-close-icon"><img src='<?php echo plugins_url( 'lib/img/banner_close_icon.png', WPCLONE_ROOT_FILE_PATH )?>'> </div>
+            <p>
+                Could you please do us a <strong>BIG favor</strong> and consider contributing to our crowdfunding effort <a target="_blank" href="https://sellcodes.com/q1OGuSox">here</a>? <br> <br>
+
+                <span style="text-decoration: underline">Background:</span> This is a great plugin, but it has been neglected for a long time, <br>
+                and we would like to change that, i.e. completely re-work the entire plugin, <br> make it 100% bug-free, and
+                add many more features (while still keeping it super-simple to use!) <br>. We're short on cash,
+                and need your help for that. Thank you!
+                <br><br>
+
+                <a href="https://sellcodes.com/q1OGuSox" target="_blank">=&gt; Visit the crowdfunding page</a>
+                <br><br>
+                If something doesn’t work as it should, please <a href="https://wordpress.org/support/plugin/wp-clone-by-wp-academy/" target="_blank">ask us in the forum</a> .  We’ll try to respond quickly!
+            </p>
+        </div>
+    </div>
+
+    <?php
 }
 
 function wpa_wpc_search_n_replace_report( $report ) {
@@ -770,6 +821,150 @@ function wpa_wpconfig_path () {
 
 }
 
+function wcbwa_download_url_alternate( $url, $timeout = 300, $signature_verification = false ){
+    //WARNING: The file is not automatically deleted, The script must unlink() the file.
+    if ( ! $url ) {
+        return new WP_Error( 'http_no_url', __( 'Invalid URL Provided.' ) );
+    }
+
+    $url_filename = basename( parse_url( $url, PHP_URL_PATH ) );
+
+    $tmpfname = wp_tempnam( $url_filename );
+    if ( ! $tmpfname ) {
+        return new WP_Error( 'http_no_file', __( 'Could not create Temporary file.' ) );
+    }
+
+    $response = wp_remote_get(
+        $url,
+        array(
+            'timeout'  => $timeout,
+            'stream'   => true,
+            'filename' => $tmpfname,
+        )
+    );
+
+    if ( is_wp_error( $response ) ) {
+        unlink( $tmpfname );
+        return $response;
+    }
+
+    $response_code = wp_remote_retrieve_response_code( $response );
+
+    if ( 200 != $response_code ) {
+        $data = array(
+            'code' => $response_code,
+        );
+
+        // Retrieve a sample of the response body for debugging purposes.
+        $tmpf = fopen( $tmpfname, 'rb' );
+        if ( $tmpf ) {
+            /**
+             * Filters the maximum error response body size in `download_url()`.
+             *
+             * @since 5.1.0
+             *
+             * @see download_url()
+             *
+             * @param int $size The maximum error response body size. Default 1 KB.
+             */
+            $response_size = apply_filters( 'download_url_error_max_body_size', KB_IN_BYTES );
+            $data['body']  = fread( $tmpf, $response_size );
+            fclose( $tmpf );
+        }
+
+        unlink( $tmpfname );
+        return new WP_Error( 'http_404', trim( wp_remote_retrieve_response_message( $response ) ), $data );
+    }
+
+    $content_md5 = wp_remote_retrieve_header( $response, 'content-md5' );
+    if ( $content_md5 ) {
+        $md5_check = verify_file_md5( $tmpfname, $content_md5 );
+        if ( is_wp_error( $md5_check ) ) {
+            unlink( $tmpfname );
+            return $md5_check;
+        }
+    }
+
+    // If the caller expects signature verification to occur, check to see if this URL supports it.
+    if ( $signature_verification ) {
+        /**
+         * Filters the list of hosts which should have Signature Verification attempteds on.
+         *
+         * @since 5.2.0
+         *
+         * @param array List of hostnames.
+         */
+        $signed_hostnames       = apply_filters( 'wp_signature_hosts', array( 'wordpress.org', 'downloads.wordpress.org', 's.w.org' ) );
+        $signature_verification = in_array( parse_url( $url, PHP_URL_HOST ), $signed_hostnames, true );
+    }
+
+    // Perform signature valiation if supported.
+    if ( $signature_verification ) {
+        $signature = wp_remote_retrieve_header( $response, 'x-content-signature' );
+        if ( ! $signature ) {
+            // Retrieve signatures from a file if the header wasn't included.
+            // WordPress.org stores signatures at $package_url.sig
+
+            $signature_url = false;
+            $url_path      = parse_url( $url, PHP_URL_PATH );
+            if ( substr( $url_path, -4 ) == '.zip' || substr( $url_path, -7 ) == '.tar.gz' ) {
+                $signature_url = str_replace( $url_path, $url_path . '.sig', $url );
+            }
+
+            /**
+             * Filter the URL where the signature for a file is located.
+             *
+             * @since 5.2.0
+             *
+             * @param false|string $signature_url The URL where signatures can be found for a file, or false if none are known.
+             * @param string $url                 The URL being verified.
+             */
+            $signature_url = apply_filters( 'wp_signature_url', $signature_url, $url );
+
+            if ( $signature_url ) {
+                $signature_request = wp_safe_remote_get(
+                    $signature_url,
+                    array(
+                        'limit_response_size' => 10 * 1024, // 10KB should be large enough for quite a few signatures.
+                    )
+                );
+
+                if ( ! is_wp_error( $signature_request ) && 200 === wp_remote_retrieve_response_code( $signature_request ) ) {
+                    $signature = explode( "\n", wp_remote_retrieve_body( $signature_request ) );
+                }
+            }
+        }
+
+        // Perform the checks.
+        $signature_verification = verify_file_signature( $tmpfname, $signature, basename( parse_url( $url, PHP_URL_PATH ) ) );
+    }
+
+    if ( is_wp_error( $signature_verification ) ) {
+        if (
+            /**
+             * Filters whether Signature Verification failures should be allowed to soft fail.
+             *
+             * WARNING: This may be removed from a future release.
+             *
+             * @since 5.2.0
+             *
+             * @param bool   $signature_softfail If a softfail is allowed.
+             * @param string $url                The url being accessed.
+             */
+        apply_filters( 'wp_signature_softfail', true, $url )
+        ) {
+            $signature_verification->add_data( $tmpfname, 'softfail-filename' );
+        } else {
+            // Hard-fail.
+            unlink( $tmpfname );
+        }
+
+        return $signature_verification;
+    }
+
+    return $tmpfname;
+}
+
 function wpa_fetch_file($path){
     $z = pathinfo($path);
     global $wp_filesystem;
@@ -779,7 +974,8 @@ function wpa_fetch_file($path){
     }
     else {
         wpa_wpc_log( 'file download started' );
-        $url = download_url($path, 750);
+        $url = wcbwa_download_url_alternate($path, ini_get("max_execution_time"));
+        //$url = download_url($path);
         if ( is_wp_error($url) ) {
             wpa_backup_error( 'url', $url->get_error_message(), true );
         }
@@ -1190,7 +1386,6 @@ function wpa_wpc_unzip( $zipfile, $temp_dir ) {
 }
 
 function wpa_wpc_get_db( $zipfile, $zipmode ) {
-
     $ret = array();
     if( $zipmode || ( ! in_array( 'ZipArchive', get_declared_classes() ) || ! class_exists( 'ZipArchive' ) ) ) {
 

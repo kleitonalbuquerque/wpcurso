@@ -1,36 +1,11 @@
 <script type="text/javascript">
     jQuery ( function($) {
-
-        ZeroClipboard.setDefaults( { moviePath: '<?php echo WPCLONE_URL_PLUGIN ?>lib/js/ZeroClipboard.swf' } );
-
-        /**workaround for firefox versions 18 and 19.
-           https://bugzilla.mozilla.org/show_bug.cgi?id=829557
-           https://github.com/jonrohan/ZeroClipboard/issues/73
-        */
-        var enableZC = true;
-        var is_firefox18 = navigator.userAgent.toLowerCase().indexOf('firefox/18') > -1;
-        var is_firefox19 = navigator.userAgent.toLowerCase().indexOf('firefox/19') > -1;
-        if (is_firefox18 || is_firefox19) enableZC = false;
-
-        if ( $( ".restore-backup-options" ).length ) {
-            $( ".restore-backup-options" ).each( function() {
-                var clip = new ZeroClipboard( $( "a.copy-button",this ) );
-                /** FF 18/19 users won't see an alert box. */
-                if (enableZC) {
-                    clip.on( 'complete', function (client, args) {
-                        alert( "Copied to clipboard:\n" + args.text );
-                    });
-                }
-            });
-        } else {
-            var clip = new ZeroClipboard( $( "a.copy-button" ) );
-            /** FF 18/19 users won't see an alert box. */
-            if (enableZC) {
-                clip.on( 'complete', function (client, args) {
-                    alert( "Copied to clipboard:\n" + args.text );
-                });
+        var clipboard = new ClipboardJS('.copy-button');
+        clipboard.on('success', function(e) {
+            if(e.text.length > 0){
+                alert("URL has been copied successfully!");
             }
-        }
+        });
     });
 
 </script>
@@ -53,19 +28,70 @@ $backups = get_option( 'wpclone_backups' );
     </form>
     <div id="search-n-replace-info"></div>
 </div>
+
 <div id="wrapper">
+    <!--<div class="plugin-large-notice">
+        <div class="banner-1-collapsed" style="display:none; background-image: url('<?php /*echo plugins_url( 'lib/img/banner_bg_fold.jpg', __FILE__ )*/?>')">
+            <p class="left-text"><strong>BIG NEWS:</strong> We want WP Clone to arise from the dead. <a href="#">Read more</a></p>
+            <p class="remove-for-good">Remove for good (please first read it!)</p>
+        </div>
+        <div class="banner-1" style="background-image: url('<?php /*echo plugins_url( 'lib/img/banner_bg.jpg', __FILE__ )*/?>')">
+            <div class="close-icon"><img src='<?php /*echo plugins_url( 'lib/img/banner_close_icon.png', __FILE__ )*/?>'> </div>
+            <div class="heading">BIG NEWS: <strong>We want WP Clone to arise from the dead.</strong> Please help us!</div>
+            <div style="margin-top: 27px; font-size: 20px; color: #3a3a3a">The key points in a nutshell:</div>
+            <div class="nutshell-list">
+                <ul>
+                    <li>1.	New contributors have been added to the plugin, and with it comes new motivation to make it a kick-ass product!</li>
+                    <li>2. 	Some fixes have been applied, the plugin now works in 90% of cases (and a further 9% if you follow the process as
+                        outlined on the plugin page)</li>
+                    <li>
+                        3.	We want to revive the plugin, make it work in 100% of cases, and add many more features. As we’re short on cash,
+                        we’re crowdfunding it, and need your help:
+                        <ul style="margin-left: 30px;margin-top: 15px;">
+                            <li>
+                                a.	<span style="text-decoration: underline;">Contribution of 5 or 10 USD:</span> You get the warm fuzzy feeling from giving a sincere “Thank you” for a plugin which <br>
+                                probably saved your butt a few times in the past, and helping to further develop it!
+                            </li>
+                            <li>
+                                b.	<span style="text-decoration: underline;">Contributions of 15 USD+:</span> As in a), plus you will be rewarded with a <strong>free plugin license</strong> <br>
+                                (for the premium product which we will create)
+                            </li>
+                            <li>
+                                c.	<span style="text-decoration: underline;">Contributions of 50 USD+:</span>  As in a), plus an <strong>unlimited websites premium license.</strong> <br>
+                                This a fantastic, one-time deal. The plugin will provide many more features <br>
+                                - such as backup scheduling, backup to external servers etc.<br>
+                                while still being super-easy to use!
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="banner-footer">
+                The crowdfunding target is USD 3,000. If we don’t reach it you’ll be refunded*. <br>
+                Thank you for your support - we really depend on it!
+            </div>
+            <div style="margin-top: 33px;">
+                <a href="#" class="button1">Contribute</a>
+                <a href="#" class="button1"> Contribute & ger free license(s)</a>
+            </div>
+            <p style="margin-top: 33px;">
+                Also check out the updated plugin description.
+            </p>
+            <p style="margin-top: 33px; color: #0f9087">
+                *With the exception of the 5 or 10 USD amounts. We want you to have that warm fuzzy feeling forever ;)
+            </p>
+        </div>
+    </div>-->
 <div id="MainView">
 
-    <h2>Welcome to WP Clone by <a href="http://wpacademy.com">WP Academy</a></h2>
+    <h2>Welcome to WP Clone, by <a href="http://wpacademy.com">WP Academy</a></h2>
 
     <p>You can use this tool to create a backup of this site and (optionally) restore it to another server, or another WordPress installation on the same server.</p>
 
     <p><strong>Here is how it works:</strong> the "Backup" function will give you a URL that you can then copy and paste
         into the "Restore" dialog of a new WordPress site, which will clone the original site to the new site. You must
         install the plugin on the new site and then run the WP Clone > Restore function.</p>
-    <p><b>Attention:</b> The restore process will fail on approximately 10% of installations and may render your site unusable.
-        Please carefully read <a href="http://members.wpacademy.com/wpclone-faq/">No Support and Disclaimer</a>.  
-        We do offer <a href="http://members.wpacademy.com/services/">Paid Site Transfer Services</a> using more reliable backup methods.</p>
+    <p><b>Attention:</b> The restore process will fail on approximately 10% of installations. PLEASE read the <a href="https://wordpress.org/plugins/wp-clone-by-wp-academy/" target="_blank">plugin page</a> for more information. Only restore on a clean slate site.</p>
     
     <p><strong>Choose your selection below:</strong> either create a backup of this site, or choose which backup you
         would like to restore.</p>
@@ -207,30 +233,21 @@ $backups = get_option( 'wpclone_backups' );
 <div id="sidebar">		
 
 		<ul>
-			<h2>Managed WordPress Hosting from $12/mth, with 6 months free!</h2>
-                        <p>Watch us test the performance of WP Academy hosting, and review benefits</p>
-                        <iframe src="//player.vimeo.com/video/187757407?title=0&amp;byline=0&amp;portrait=0" width="300" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>                        
-                        <p>Get true <a href="http://wpacademy.com/hosting">Managed WordPress Hosting</a> for just $12/mth (20% discount) 
-                            <a href ="https://wpwebsitenow.com/billing/cart.php?a=add&pid=9">here</a>.
-                            Enter coupon <b>FREE6</b> at checkout for additional 6 months free. Unlimited sites!</p>
-			
-		</ul>
-    
-                <ul>
-			<h2>Site Transfer Service from $10!</h2>
-                        <a href="http://members.wpacademy.com/services/"><img src="//d28zm3zq58hlat.cloudfront.net/img/wordpress-site-clone-backup-buddy.jpg" /></a>
-                        <p>Save time and avoid headaches: hire us to transfer your site.  
-                            The <a href="http://members.wpacademy.com/product/clone-backupbuddy/">upgrade option</a> even includes a lifetime license and configuration of 
-                            <b>Backup Buddy</b>, the best WordPress backup plugin!</p>
+			<h2 style="color: #0f9087">We need your help!</h2>
+                        <p>PLEASE contribute to our crowdfunding effort to create the best backup & migration plugin on the market. <a href="https://sellcodes.com/q1OGuSox" target="_blank"> Go to crowdfunding page.</a></p>
 			
 		</ul>
 
+		<ul>
+			<h2>Use WP Academy’s Transfer Service</h2>
+                        <p>Save time and avoid headaches with WP Academy’s <a target="_blank" href="https://sellcodes.com/fJxO4jci">Premium Transfer Service.</a></p>
+
+		</ul>
     
 		<ul>
 			<h2>Help & Support</h2>
-			<li><a href="http://members.wpacademy.com/wpclone-faq" target="_blank" title="WP Clone FAQ">Visit the WP Clone FAQ Page</a></li>
-			<li><a href="http://wordpress.org/support/plugin/wp-clone-by-wp-academy" target="_blank" title="Support Forum">Support forum at WordPress.org</a></li>
-                        <li><a href="http://members.wpacademy.com/services/">Paid Site Transfer Service</a></li>
+            <p>If you face any issues, we’re very happy to answer your questions in the <a href="http://wordpress.org/support/plugin/wp-clone-by-wp-academy" target="_blank" title="Support Forum">Support Forum</a>. <br><br>
+                We still have to catch up on the old support threads, however we’ll treat new questions with a high priority! :)</p>
 		</ul>
 
 	</div>
